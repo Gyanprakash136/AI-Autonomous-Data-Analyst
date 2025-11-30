@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  analyst-app:
+    build: .
+    ports:
+      - "8501:8501"
+    environment:
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+    volumes:
+      - ./db:/app/db
+      - ./orchestrator/reports:/app/orchestrator/reports
+    restart: unless-stopped

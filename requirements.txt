@@ -1,0 +1,7 @@
+streamlit
+pandas
+matplotlib
+reportlab
+google-genai
+google-adk
+python-dotenv

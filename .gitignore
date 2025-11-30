@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+venv/
+env/
+.env
+
+# Database
+db/*.db
+*.sqlite3
+
+# Reports
+orchestrator/reports/*.pdf
+
+# OS specific
+.DS_Store
+.vscode/
+.idea/
+
+# Streamlit
+.streamlit/

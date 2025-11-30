@@ -1,0 +1,41 @@
+{
+  "table_name": "uploaded_table",
+  "columns": [
+    {
+      "name": "constituentid",
+      "type": "INTEGER"
+    },
+    {
+      "name": "displayname",
+      "type": "TEXT"
+    },
+    {
+      "name": "artistbio",
+      "type": "TEXT"
+    },
+    {
+      "name": "nationality",
+      "type": "TEXT"
+    },
+    {
+      "name": "gender",
+      "type": "TEXT"
+    },
+    {
+      "name": "begindate",
+      "type": "INTEGER"
+    },
+    {
+      "name": "enddate",
+      "type": "INTEGER"
+    },
+    {
+      "name": "wiki_qid",
+      "type": "TEXT"
+    },
+    {
+      "name": "ulan",
+      "type": "REAL"
+    }
+  ]
+}
