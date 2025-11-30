@@ -87,3 +87,51 @@ Cloud Run is **stateless**. The SQLite database (`db/analyst.db`) and generated 
 -   **Data**: You will need to re-upload your CSV file each time you visit the app after a restart.
 -   **Reports**: Download your reports immediately after generation.
 
+## Google Cloud Run Console Configuration
+
+If you are deploying via the Google Cloud Console UI, use these settings:
+
+1.  **Container image URL**: Select your uploaded image (e.g., `gcr.io/PROJECT_ID/analyst-app`).
+2.  **Container name**: You can leave this as default or name it `analyst-app`.
+3.  **Container command**: **LEAVE BLANK**. The Dockerfile handles this.
+4.  **Container arguments**: **LEAVE BLANK**.
+5.  **Variables & Secrets**:
+    -   Click **ADD VARIABLE**.
+    -   Name: `GOOGLE_API_KEY`
+    -   Value: Paste your actual API key (starting with `AIza...`).
+6.  **Volume Mounts**: You can skip this. Cloud Run is stateless by default.
+
+## Continuous Deployment from GitHub
+
+To automatically deploy changes whenever you push to GitHub:
+
+1.  Go to the [Google Cloud Run Console](https://console.cloud.google.com/run).
+2.  Click **CREATE SERVICE**.
+3.  Select **Continuously deploy new revisions from a source repository**.
+4.  Click **SET UP WITH CLOUD BUILD**.
+5.  **Repository Provider**: Select **GitHub**.
+6.  **Repository**: Select your repo (`AI-Autonomous-Data-Analyst`).
+    *   *Note: If you don't see it, ensure you renamed it to remove the leading hyphen.*
+7.  **Build Configuration**:
+    *   Select **Dockerfile**.
+    *   Source location: `/` (root).
+8.  **Authentication**:
+    *   Allow unauthenticated invocations (if you want it public).
+9.  **Environment Variables**:
+    *   Expand **Container, Networking, Security**.
+    *   Go to **Variables & Secrets**.
+    *   Add `GOOGLE_API_KEY` and your key value.
+10. Click **CREATE**.
+
+Now, every time you `git push origin main`, Google Cloud Build will automatically build the Docker image and deploy it to Cloud Run!
+
+
+## Troubleshooting
+
+### "Invalid reference format" Error
+If you see an error like `invalid argument ... for "-t, --tag" flag: invalid reference format`, it is likely because your **GitHub repository name starts with a hyphen (-)** (e.g., `-AI-Autonomous-Data-Analyst`).
+-   **Cause**: Docker image names cannot start with a hyphen. Google Cloud Build automatically uses your repo name to tag the image.
+-   **Fix**: Rename your GitHub repository to remove the leading hyphen (e.g., change `-AI-Autonomous-Data-Analyst` to `AI-Autonomous-Data-Analyst`).
+
+
+

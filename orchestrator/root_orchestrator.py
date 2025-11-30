@@ -88,9 +88,9 @@ class RootOrchestrator:
         print("--- Discovery Mode End ---")
         return shared_state
 
-    def run(self, user_query: str):
+    def run(self, user_query: str, history: list = []):
         print("--- Pipeline Start ---")
-        shared_state = {"user_query": user_query, "discovery_mode": False}
+        shared_state = {"user_query": user_query, "discovery_mode": False, "history": history}
 
         # 1. SQL
         print("Running SQLAgent...")

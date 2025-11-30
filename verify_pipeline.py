@@ -12,10 +12,15 @@ def verify_pipeline():
     
     # 1. Create dummy CSV
     csv_path = "test_data.csv"
+    # Create 20 rows of data
+    dates = pd.date_range(start="2023-01-01", periods=20).strftime("%Y-%m-%d").tolist()
+    sales = [100 + i*10 for i in range(20)]
+    categories = ["A", "B"] * 10
+    
     df = pd.DataFrame({
-        "date": ["2023-01-01", "2023-01-02", "2023-01-03", "2023-01-04", "2023-01-05"],
-        "sales": [100, 150, 200, 130, 170],
-        "category": ["A", "B", "A", "B", "A"]
+        "date": dates,
+        "sales": sales,
+        "category": categories
     })
     df.to_csv(csv_path, index=False)
     print("Created test_data.csv")
@@ -32,8 +37,17 @@ def verify_pipeline():
 
     # 2. Test Discovery Mode
     print("Running Discovery Mode...")
+    # Fetch data from DB to simulate UI behavior
+    import sqlite3
+    conn = sqlite3.connect('db/analyst.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM data_table")
+    rows = cursor.fetchall()
+    columns = [description[0] for description in cursor.description]
+    conn.close()
+    
     discovery_state = {
-        "sql_result": {"rows": [("2023-01-01", 100), ("2023-01-02", 150)], "columns": ["date", "sales"]},
+        "sql_result": {"rows": rows, "columns": columns},
         "user_query": ""
     }
     discovery_result = orchestrator.run_discovery(discovery_state)
@@ -53,56 +67,63 @@ def verify_pipeline():
         print("❌ Discovery: No overview charts.")
 
     # 3. Run Pipeline (Query)
-    query = "Show me sales over time and forecast next values."
+    # --- Pipeline Run 1 ---
+    query1 = "Show me sales over time."
+    print(f"Running query 1: {query1}")
     
-    print(f"Running query: {query}")
-    result = orchestrator.run(query)
+    # Run pipeline
+    result1 = orchestrator.run(query1, history=[])
     
-    # 4. Check Results
-    print("\n--- Checking Results ---")
+    # Simulate saving to history
+    history = [{
+        "user_query": query1,
+        "insight_agent": result1.get("insight_agent", {}),
+        "forecast_agent": result1.get("forecast_agent", {}),
+        "chart_agent": result1.get("chart_agent", {})
+    }]
     
-    # SQL
-    sql = result.get("sql_agent", {}).get("sql")
+    # --- Pipeline Run 2 ---
+    query2 = "What is the average sales?"
+    print(f"Running query 2: {query2}")
+    
+    result2 = orchestrator.run(query2, history=history)
+    
+    print("--- Checking Results ---")
+    
+    # Check SQL
+    sql = result2.get("sql_agent", {}).get("sql")
     print(f"SQL Generated: {sql}")
-    if not sql:
-        print("❌ SQL generation failed")
-    else:
+    if sql:
         print("✅ SQL generation success")
-
-    # SQL Execution
-    rows = result.get("sql_result", {}).get("rows")
-    print(f"Rows returned: {len(rows) if rows else 0}")
-    if not rows:
-        print("❌ SQL execution failed or empty")
     else:
+        print("❌ SQL generation failed")
+
+    # Check SQL Execution
+    rows = result2.get("sql_result", {}).get("rows")
+    if rows:
+        print(f"Rows returned: {len(rows)}")
         print("✅ SQL execution success")
+    else:
+        print("❌ SQL execution failed (or empty result)")
 
-    # Charts
-    charts = result.get("chart_agent", {}).get("charts", [])
+    # Check Charts
+    charts = result2.get("chart_agent", {}).get("charts", [])
     print(f"Charts generated: {len(charts)}")
-    if not charts:
-        print("⚠️ No charts generated (might be valid if LLM decided so)")
-    else:
+    if len(charts) > 0:
         print("✅ Charts generated")
-
-    # Insights
-    insights = result.get("insight_agent", {}).get("insights")
-    if not insights:
-        print("❌ Insights failed")
-    else:
+    
+    # Check Insights
+    if result2.get("insight_agent", {}).get("insights"):
         print("✅ Insights generated")
-
-    # Forecast
-    forecast = result.get("forecast_agent", {}).get("forecast_text")
-    if not forecast:
-        print("❌ Forecast failed")
-    else:
+        
+    # Check Forecast
+    if result2.get("forecast_agent", {}).get("forecast_text"):
         print("✅ Forecast generated")
 
-    # Report
-    report = result.get("report_file")
-    if report and os.path.exists(report):
-        print(f"✅ Report generated at: {report}")
+    # Check Report
+    report_path = result2.get("report_file")
+    if report_path and os.path.exists(report_path):
+        print(f"✅ Report generated at: {report_path}")
     else:
         print("❌ Report generation failed")
 

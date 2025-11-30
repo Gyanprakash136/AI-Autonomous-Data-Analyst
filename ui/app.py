@@ -24,6 +24,8 @@ def main():
         st.session_state.messages = []
     if "discovery_data" not in st.session_state:
         st.session_state.discovery_data = None
+    if "history" not in st.session_state:
+        st.session_state.history = []
 
     # Sidebar for setup
     with st.sidebar:
@@ -48,7 +50,7 @@ def main():
                         import sqlite3
                         conn = sqlite3.connect(os.path.join(os.path.dirname(__file__), '../db/analyst.db'))
                         cursor = conn.cursor()
-                        cursor.execute("SELECT * FROM data_table LIMIT 5")
+                        cursor.execute("SELECT * FROM data_table LIMIT 1000")
                         rows = cursor.fetchall()
                         columns = [description[0] for description in cursor.description]
                         conn.close()
@@ -98,7 +100,18 @@ def main():
         
         with st.spinner("Running AI Analysis Pipeline..."):
             try:
-                result = orchestrator.run(user_query)
+                # Pass history to orchestrator
+                result = orchestrator.run(user_query, history=st.session_state.history)
+                
+                # Append result to history for next time
+                # We only need specific fields to save space/context
+                history_item = {
+                    "user_query": user_query,
+                    "insight_agent": result.get("insight_agent", {}),
+                    "forecast_agent": result.get("forecast_agent", {}),
+                    "chart_agent": result.get("chart_agent", {})
+                }
+                st.session_state.history.append(history_item)
                 
                 # 1. SQL Results
                 st.subheader("📊 Data Query")

@@ -7,9 +7,23 @@ class ReportAgent(BaseAgent):
 
     def run(self, shared_state: dict) -> dict:
         """
-        Generates the PDF report.
+        Generates the PDF report using the full session history.
         """
-        pdf_path = generate_pdf_report(shared_state)
+        # Extract history passed from Orchestrator
+        history = shared_state.get("history", [])
+        
+        # Create a snapshot of the current turn
+        current_turn = {
+            "user_query": shared_state.get("user_query", ""),
+            "insight_agent": shared_state.get("insight_agent", {}),
+            "forecast_agent": shared_state.get("forecast_agent", {}),
+            "chart_agent": shared_state.get("chart_agent", {})
+        }
+        
+        # Combine history + current
+        full_history = history + [current_turn]
+        
+        pdf_path = generate_pdf_report(full_history)
         
         if pdf_path:
             print(f"[ReportAgent] PDF generated at: {pdf_path}")
