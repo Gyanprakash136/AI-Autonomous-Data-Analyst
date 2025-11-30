@@ -25,64 +25,42 @@ class RootOrchestrator:
 
     def _run_parallel_agents(self, shared_state):
         """
-        Runs Chart, Insight, and Forecast agents in parallel.
-        Uses deepcopy to prevent state pollution.
-        Merges results safely.
+        Runs Chart, Insight, and Forecast agents sequentially to avoid asyncio conflicts.
         """
         agents = [self.chart_agent, self.insight_agent, self.forecast_agent]
         updated_state = {}
 
-        # Safely run thread pool
-        with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
-            # Deepcopy to prevent shared state race conditions during reads
-            # We map future -> agent_name for error reporting
-            futures = {
-                executor.submit(agent.run, copy.deepcopy(shared_state)): agent.name
-                for agent in agents
-            }
-
-            for future in concurrent.futures.as_completed(futures):
-                name = futures[future]
-                try:
-                    res = future.result()
-                    # Merge specific agent outputs back
-                    # We expect agents to return a dict with their specific key
-                    # e.g. {"chart_agent": ...}
-                    for k, v in res.items():
-                        if k.endswith("_agent"):
-                            updated_state[k] = v
-                except Exception as e:
-                    print(f"Agent {name} failed: {e}")
+        for agent in agents:
+            try:
+                # Deepcopy to prevent state pollution
+                res = agent.run(copy.deepcopy(shared_state))
+                for k, v in res.items():
+                    if k.endswith("_agent"):
+                        updated_state[k] = v
+            except Exception as e:
+                print(f"Agent {agent.name} failed: {e}")
 
         return updated_state
 
     def run_discovery(self, shared_state: dict):
         """
-        Runs agents in discovery mode to generate initial insights and charts.
+        Runs agents in discovery mode sequentially.
         """
         print("--- Discovery Mode Start ---")
         shared_state["discovery_mode"] = True
         
-        # Run Chart and Insight agents in parallel
-        # Note: We skip SQLAgent and ForecastAgent for discovery as we just want overview
+        # Run Chart and Insight agents sequentially
         agents = [self.chart_agent, self.insight_agent]
         updated_state = {}
 
-        with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
-            futures = {
-                executor.submit(agent.run, copy.deepcopy(shared_state)): agent.name
-                for agent in agents
-            }
-
-            for future in concurrent.futures.as_completed(futures):
-                name = futures[future]
-                try:
-                    res = future.result()
-                    for k, v in res.items():
-                        if k.endswith("_agent"):
-                            updated_state[k] = v
-                except Exception as e:
-                    print(f"Discovery Agent {name} failed: {e}")
+        for agent in agents:
+            try:
+                res = agent.run(copy.deepcopy(shared_state))
+                for k, v in res.items():
+                    if k.endswith("_agent"):
+                        updated_state[k] = v
+            except Exception as e:
+                print(f"Discovery Agent {agent.name} failed: {e}")
 
         shared_state.update(updated_state)
         print("--- Discovery Mode End ---")

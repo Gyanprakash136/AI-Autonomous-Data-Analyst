@@ -125,6 +125,27 @@ To automatically deploy changes whenever you push to GitHub:
 
 Now, every time you `git push origin main`, Google Cloud Build will automatically build the Docker image and deploy it to Cloud Run!
 
+## Railway Deployment
+
+Railway is a great alternative that builds directly from your GitHub repository using the `Dockerfile`.
+
+1.  **Sign Up/Login**: Go to [railway.app](https://railway.app/).
+2.  **New Project**: Click **"New Project"** -> **"Deploy from GitHub repo"**.
+3.  **Select Repo**: Choose `AI-Autonomous-Data-Analyst`.
+4.  **Configuration**:
+    *   Railway will automatically detect the `Dockerfile`.
+5.  **Variables**:
+    *   Click on the new service card.
+    *   Go to the **"Variables"** tab.
+    *   Add `GOOGLE_API_KEY` with your API key value.
+6.  **Deploy**: Railway will automatically build and deploy.
+7.  **Public Domain**:
+    *   Go to the **"Settings"** tab.
+    *   Under "Networking", click **"Generate Domain"** to make your app accessible publicly.
+
+**Note**: You do not need to provide an "image name". Railway builds the image for you from your code.
+
+
 
 ## Troubleshooting
 
