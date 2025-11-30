@@ -145,6 +145,35 @@ Railway is a great alternative that builds directly from your GitHub repository 
 
 **Note**: You do not need to provide an "image name". Railway builds the image for you from your code.
 
+## GitHub Codespaces
+
+You can run the application directly in the cloud using GitHub Codespaces.
+
+1.  **Open in Codespaces**:
+    *   Go to your GitHub repository: `https://github.com/Gyanprakash136/AI-Autonomous-Data-Analyst`
+    *   Click the green **Code** button.
+    *   Select the **Codespaces** tab.
+    *   Click **Create codespace on main**.
+
+2.  **Wait for Setup**:
+    *   Codespaces will build the container and install dependencies (this may take a few minutes).
+
+3.  **Run the App**:
+    *   Once the terminal is ready, run:
+        ```bash
+        streamlit run ui/app.py
+        ```
+    *   **Important**: You need to set your API key. You can export it in the terminal before running:
+        ```bash
+        export GOOGLE_API_KEY="your_api_key_here"
+        streamlit run ui/app.py
+        ```
+    *   Or create a `.env` file in the codespace.
+
+4.  **Access the App**:
+    *   VS Code will pop up a notification "Your application running on port 8501 is available".
+    *   Click **Open in Browser**.
+
 
 
 ## Troubleshooting
