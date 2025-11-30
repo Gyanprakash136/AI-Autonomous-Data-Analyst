@@ -29,4 +29,5 @@ EXPOSE 8501
 ENV PYTHONUNBUFFERED=1
 
 # Run app.py when the container launches
-CMD ["streamlit", "run", "ui/app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+# Use shell form to allow variable expansion
+CMD sh -c "streamlit run ui/app.py --server.port=\${PORT:-8501} --server.address=0.0.0.0"

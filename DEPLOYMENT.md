@@ -174,6 +174,26 @@ You can run the application directly in the cloud using GitHub Codespaces.
     *   VS Code will pop up a notification "Your application running on port 8501 is available".
     *   Click **Open in Browser**.
 
+## Render Deployment
+
+Render is another excellent option that works seamlessly with your Docker setup.
+
+1.  **Sign Up/Login**: Go to [render.com](https://render.com/).
+2.  **New Web Service**: Click **"New +"** -> **"Web Service"**.
+3.  **Connect GitHub**: Select **"Build and deploy from a Git repository"** and connect your `AI-Autonomous-Data-Analyst` repo.
+4.  **Configuration**:
+    *   **Runtime**: Select **Docker**.
+    *   **Region**: Choose the one closest to you.
+    *   **Branch**: `main`.
+5.  **Environment Variables**:
+    *   Click **"Advanced"** or scroll down to **"Environment Variables"**.
+    *   Add Key: `GOOGLE_API_KEY`, Value: `your_api_key_here`.
+    *   (Optional) Add Key: `PORT`, Value: `8501` (Render usually detects this, but good to be safe).
+6.  **Deploy**: Click **"Create Web Service"**.
+
+Render will build your Docker image and deploy it. It might take a few minutes.
+
+
 
 
 ## Troubleshooting
