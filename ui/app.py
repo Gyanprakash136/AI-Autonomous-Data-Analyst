@@ -7,6 +7,9 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
+import nest_asyncio
+nest_asyncio.apply()
+
 # Ensure root import visibility
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
