@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: ai-autonomous-data-analyst
+    env: docker
+    region: oregon
+    plan: free
+    branch: main
+    envVars:
+      - key: GOOGLE_API_KEY
+        sync: false
+      - key: PORT
+        value: 8501
