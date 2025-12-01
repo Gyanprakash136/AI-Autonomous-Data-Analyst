@@ -204,7 +204,6 @@ This project successfully implements the following core concepts from the challe
 
 ## 🟦 10. Screenshots
 
-*(Add your screenshots here)*
 ![Overview](screenshots/demo_1.png)
 ![SQL Generation](screenshots/demo_2.png) ![Chart Generation](screenshots/demo_3.png)
 ![Insights](screenshots/demo_4.png)
