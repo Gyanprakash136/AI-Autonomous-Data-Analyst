@@ -71,7 +71,7 @@ This project implements a **monolithic, enterprise-grade multi-agent architectur
 ```
 
 #### **Architecture Diagram**
-![Architecture Diagram](Untitled design.png)
+![Architecture Diagram](screenshots/architecture_diagram.png)
 
 ### **Agent Roles & Responsibilities**
 
