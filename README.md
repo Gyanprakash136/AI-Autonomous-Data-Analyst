@@ -204,16 +204,11 @@ This project successfully implements the following core concepts from the challe
 
 ## 🟦 10. Screenshots
 
-![alt text](<Screenshot 2025-12-01 at 2.44.30 PM.png>)
-![alt text](<Screenshot 2025-12-01 at 2.49.13 PM.png>) 
-![alt text](<Screenshot 2025-12-01 at 2.49.18 PM.png>)
-![alt text](<Screenshot 2025-12-01 at 2.50.37 PM.png>)
-![alt text](<Screenshot 2025-12-01 at 2.49.36 PM.png>) 
-![alt text](<Screenshot 2025-12-01 at 2.50.28 PM.png>) 
-![alt text](<Screenshot 2025-12-01 at 2.50.33 PM.png>) 
-![alt text](<Screenshot 2025-12-01 at 2.50.37 PM-1.png>) 
-![alt text](<Screenshot 2025-12-01 at 2.50.47 PM.png>)
-![alt text](<Screenshot 2025-12-01 at 2.50.49 PM.png>)
+*(Add your screenshots here)*
+![Overview](screenshots/demo_1.png)
+![SQL Generation](screenshots/demo_2.png) ![Chart Generation](screenshots/demo_3.png)
+![Insights](screenshots/demo_4.png)
+![Forecast](screenshots/demo_5.png) ![Report 1](screenshots/demo_6.png) ![Report 2](screenshots/demo_7.png) ![Report 3](screenshots/demo_8.png) ![Report 4](screenshots/demo_9.png) ![Report 5](screenshots/demo_10.png)
 
 ---
 
