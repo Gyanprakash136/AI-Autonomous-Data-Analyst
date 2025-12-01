@@ -205,6 +205,10 @@ This project successfully implements the following core concepts from the challe
 ## 🟦 10. Screenshots
 
 *(Add your screenshots here)*
+![alt text](<Screenshot 2025-12-01 at 2.44.30 PM.png>)
+![alt text](<Screenshot 2025-12-01 at 2.49.13 PM.png>) ![alt text](<Screenshot 2025-12-01 at 2.49.18 PM.png>)
+![alt text](<Screenshot 2025-12-01 at 2.50.37 PM.png>)
+![alt text](<Screenshot 2025-12-01 at 2.49.36 PM.png>) ![alt text](<Screenshot 2025-12-01 at 2.50.28 PM.png>) ![alt text](<Screenshot 2025-12-01 at 2.50.33 PM.png>) ![alt text](<Screenshot 2025-12-01 at 2.50.37 PM-1.png>) ![alt text](<Screenshot 2025-12-01 at 2.50.47 PM.png>) ![alt text](<Screenshot 2025-12-01 at 2.50.49 PM.png>)
 
 ---
 
