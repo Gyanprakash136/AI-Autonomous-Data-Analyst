@@ -70,8 +70,8 @@ This project implements a **monolithic, enterprise-grade multi-agent architectur
       [ Streamlit UI ]
 ```
 
-#### Architecture Diagram
-![alt text](<Untitled design.png>)
+#### **Architecture Diagram**
+![Architecture Diagram](Untitled design.png)
 
 ### **Agent Roles & Responsibilities**
 
